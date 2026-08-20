@@ -1,5 +1,5 @@
 /*
- * Corne left overlay (wired TRRS) - add split-serial (single-pin) mapping D2 -> pro_micro 2
+ * Corne left overlay (wired TRRS) - split_serial removed (master moved to right)
  * SPDX-License-Identifier: MIT
  */
 
@@ -28,18 +28,4 @@
 /* Keep any Azoteq/tps43 split node disabled on the left */
 &tps43_split {
     status = "disabled";
-};
-
-/ {
-    chosen {
-        /* Point ZMK split transport to the split_serial node defined below */
-        zmk,split = &split_serial;
-    };
-
-    split_serial: split_serial@0 {
-        compatible = "zmk,split-serial";
-        /* Single-wire serial pin (TRRS) as in QMK keyboard.json: D2 -> mapped to pro_micro 2 */
-        serial-pin = <&pro_micro 2>;
-        status = "okay";
-    };
 };

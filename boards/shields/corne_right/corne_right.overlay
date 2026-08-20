@@ -1,5 +1,6 @@
 /*
- * Corne right overlay (wired TRRS) - updated pin mapping and Azoteq IQS5xx enabled
+ * Corne right overlay (wired TRRS) - make right the master: define split_serial here
+ * and restore Azoteq IQS5xx
  * SPDX-License-Identifier: MIT
  */
 
@@ -11,7 +12,7 @@
 };
 
 &kscan0 {
-    /* Columns mapped from QMK: F4, F5, F6, F7, B1, B3 => pro_micro pins 21,20,19,18,15,14
+    /* Columns mapped from QMG: F4, F5, F6, F7, B1, B3 => pro_micro pins 21,20,19,18,15,14
        For right half we offset to the other side via col-offset above, but list the same GPIOs (physical wiring) */
     col-gpios
         = <&pro_micro 14 GPIO_ACTIVE_HIGH>
@@ -57,5 +58,15 @@
 };
 
 / {
-    /* Right half does not need to define the split_serial node; left (master) points to it. */
+    /* Make right half the master for split: define split_serial and set chosen */
+    chosen {
+        zmk,split = &split_serial;
+    };
+
+    split_serial: split_serial@0 {
+        compatible = "zmk,split-serial";
+        /* Single-wire serial pin (TRRS) as in QMK keyboard.json: D2 -> mapped to pro_micro 2 */
+        serial-pin = <&pro_micro 2>;
+        status = "okay";
+    };
 };
