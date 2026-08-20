@@ -1,0 +1,14 @@
+/*
+ * Overlay to force I2C to GPIO2/GPIO3 (D0/D1) on the Pro Micro RP2040.
+ * If the Zephyr pinctrl phandles are required, this file will be updated
+ * to use the board-specific phandles to avoid DT build errors.
+ */
+
+/dts-v1/;
+
+&i2c0 {
+    status = "okay";
+    /* Map SDA -> GPIO2 (D0), SCL -> GPIO3 (D1) */
+    sda-gpios = <&gpio 2 0>;
+    scl-gpios = <&gpio 3 0>;
+};
