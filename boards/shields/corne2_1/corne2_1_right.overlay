@@ -4,7 +4,6 @@
  */
 
 #include "corne2_1.dtsi"
-#include "corne2_1_common.dtsi"
 
 &default_transform {
     col-offset = <6>;
@@ -21,18 +20,12 @@
         ;
 };
 
-/* Configura o grupo de pinos especificamente para o periférico I2C1 */
-&pinctrl {
-    i2c1_default: i2c1_default {
-        group1 {
-            pinmux = <I2C1_SDA_P2>, <I2C1_SCL_P3>;
-            input-enable;
-            input-schmitt-enable;
-        };
-    };
+/* Habilita a UART no lado direito para o split com fio */
+&pro_micro_serial {
+    status = "okay";
 };
 
-/* Aponta diretamente para o bloco &i2c1 do RP2040 */
+/* Mapeia o trackpad no barramento I2C1 (GPIO 2 e GPIO 3) */
 &i2c1 {
     status = "okay";
     pinctrl-0 = <&i2c1_default>;
@@ -44,8 +37,9 @@
         compatible = "azoteq,iqs5xx";
         reg = <0x74>;
 
-        reset-gpios = <&pro_micro 0 GPIO_ACTIVE_LOW>;
-        rdy-gpios = <&pro_micro 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+        /* Alterado para os pinos 8 e 9 para NAO conflitar com a UART (pinos 0 e 1) */
+        reset-gpios = <&pro_micro 8 GPIO_ACTIVE_LOW>;
+        rdy-gpios   = <&pro_micro 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
 
         one-finger-tap;
         press-and-hold;
