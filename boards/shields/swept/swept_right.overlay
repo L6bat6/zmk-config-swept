@@ -30,8 +30,9 @@
         compatible = "azoteq,iqs5xx";
         reg = <0x74>;
 
-        reset-gpios = <&pro_micro 0 GPIO_ACTIVE_LOW>;
-        rdy-gpios = <&pro_micro 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+        /* Optional: comment out reset/rdy to avoid overriding I2C (SCL/SDA) pins */
+        /* reset-gpios = <&pro_micro 0 GPIO_ACTIVE_LOW>; */
+        /* rdy-gpios = <&pro_micro 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>; */
 
         /*
          * Potentially non-exhaustive list of configuration options.
