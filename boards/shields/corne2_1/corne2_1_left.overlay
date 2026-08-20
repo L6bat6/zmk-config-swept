@@ -6,42 +6,23 @@
 #include "corne2_1.dtsi"
 #include "corne2_1_common.dtsi"
 
-/* Ajusta o deslocamento das colunas da matriz para a metade direita */
-&default_transform {
-    col-offset = <6>;
-};
-
-/* Configuração da matriz de teclas da direita */
+/* Configuração da matriz de teclas do lado esquerdo (sem offset) */
 &kscan0 {
     col-gpios
-        = <&pro_micro 14 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 15 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 18 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 19 GPIO_ACTIVE_HIGH>
+        = <&pro_micro 21 GPIO_ACTIVE_HIGH>
         , <&pro_micro 20 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 21 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 19 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 18 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 15 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 14 GPIO_ACTIVE_HIGH>
         ;
 };
 
-/* Redireciona o I2C0 para os pinos D0/D1 (GPIO 2 e 3 da RP2040) */
-&pinctrl {
-    i2c0_default: i2c0_default {
-        group1 {
-            pinmux = <I2C0_SDA_P2>, <I2C0_SCL_P3>;
-            input-enable;
-            input-schmitt-enable;
-        };
-    };
-};
-
-/* Ativa o I2C do Pro Micro */
+/* Desativa o I2C local no lado esquerdo, pois o trackpad está na direita */
 &pro_micro_i2c {
-    status = "okay";
-    pinctrl-0 = <&i2c0_default>;
-    pinctrl-names = "default";
+    status = "disabled";
 };
 
-/* Ativa o Trackpad Azoteq no lado direito */
 &tps43_split {
-    status = "okay";
+    status = "disabled";
 };
