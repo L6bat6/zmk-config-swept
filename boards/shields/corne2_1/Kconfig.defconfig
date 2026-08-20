@@ -1,0 +1,6 @@
+if SHIELD_CORNE2_1_LEFT || SHIELD_CORNE2_1_RIGHT
+
+config ZMK_KEYBOARD_NAME
+    default "Corne2.1"
+
+endif
