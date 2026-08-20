@@ -1,5 +1,5 @@
 /*
- * Corne left overlay (wired TRRS)
+ * Corne left overlay (wired TRRS) - updated pin mapping from QMK keyboard.json
  * SPDX-License-Identifier: MIT
  */
 
@@ -7,12 +7,25 @@
 #include "corne_left_common.dtsi"
 
 &kscan0 {
-	col-gpios
-		= <&pro_micro 21 GPIO_ACTIVE_HIGH>
-		, <&pro_micro 20 GPIO_ACTIVE_HIGH>
-		, <&pro_micro 19 GPIO_ACTIVE_HIGH>
-		, <&pro_micro 18 GPIO_ACTIVE_HIGH>
-		, <&pro_micro 15 GPIO_ACTIVE_HIGH>
-		, <&pro_micro 14 GPIO_ACTIVE_HIGH>
-		;
+    /* Columns mapped from QMK: F4, F5, F6, F7, B1, B3 => pro_micro pins 21,20,19,18,15,14 */
+    col-gpios
+        = <&pro_micro 21 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 20 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 19 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 18 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 15 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 14 GPIO_ACTIVE_HIGH>
+        ;
+
+    /* Rows are defined in the dtsi as pro_micro 4,5,6,7 corresponding to D4,C6,D7,E6 */
+};
+
+/* Keep I2C disabled on left (trackpad is on the right) */
+&pro_micro_i2c {
+    status = "disabled";
+};
+
+/* Keep any Azoteq/tps43 split node disabled on the left */
+&tps43_split {
+    status = "disabled";
 };

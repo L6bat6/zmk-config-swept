@@ -1,5 +1,5 @@
 /*
- * Corne right overlay (wired TRRS)
+ * Corne right overlay (wired TRRS) - updated pin mapping and Azoteq IQS5xx enabled
  * SPDX-License-Identifier: MIT
  */
 
@@ -7,16 +7,51 @@
 #include "corne_right_common.dtsi"
 
 &default_transform {
-	col-offset = <6>;
+    col-offset = <6>;
 };
 
 &kscan0 {
-	col-gpios
-		= <&pro_micro 14 GPIO_ACTIVE_HIGH>
-		, <&pro_micro 15 GPIO_ACTIVE_HIGH>
-		, <&pro_micro 18 GPIO_ACTIVE_HIGH>
-		, <&pro_micro 19 GPIO_ACTIVE_HIGH>
-		, <&pro_micro 20 GPIO_ACTIVE_HIGH>
-		, <&pro_micro 21 GPIO_ACTIVE_HIGH>
-		;
+    /* Columns mapped from QMK: F4, F5, F6, F7, B1, B3 => pro_micro pins 21,20,19,18,15,14
+       For right half we offset to the other side via col-offset above, but list the same GPIOs (physical wiring) */
+    col-gpios
+        = <&pro_micro 14 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 15 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 18 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 19 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 20 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 21 GPIO_ACTIVE_HIGH>
+        ;
+};
+
+/* Re-enable I2C and Azoteq IQS5xx for the trackpad on the right, using QMK mapping D0 (SCL) / D1 (SDA)
+   which map to pro_micro 0 and 1 on this board variant. Clock set to 400k as in QMK config.h */
+&pro_micro_i2c {
+    status = "okay";
+    clock-frequency = <400000>;
+    tps43: iqs5xx@74 {
+        status = "okay";
+        compatible = "azoteq,iqs5xx";
+        reg = <0x74>;
+
+        /* QMK used D0 = SCL and D1 = SDA; map these to pro_micro pins 0 and 1 respectively */
+        reset-gpios = <&pro_micro 0 GPIO_ACTIVE_LOW>;
+        rdy-gpios = <&pro_micro 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+
+        one-finger-tap;
+        press-and-hold;
+        press-and-hold-time = <180>;
+        two-finger-tap;
+
+        scroll;
+
+        bottom-beta = <25>;
+        stationary-threshold = <5>;
+
+        switch-xy;
+    };
+};
+
+/* Point the split input device to the Azoteq devnode (right-hand trackpad) */
+&tps43_split {
+    device = <&tps43>;
 };
