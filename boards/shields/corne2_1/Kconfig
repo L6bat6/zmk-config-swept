@@ -1,0 +1,20 @@
+menu "Corne 2.1 shield support"
+
+config SHIELD_CORNE2_1
+    bool "Enable Corne 2.1 shield overlays"
+    help
+      Enable support for Corne 2.1 corne2_1_left / corne2_1_right overlays.
+
+if SHIELD_CORNE2_1
+
+config SHIELD_CORNE2_1_LEFT
+    bool "Enable Corne 2.1 left overlay"
+    default y
+
+config SHIELD_CORNE2_1_RIGHT
+    bool "Enable Corne 2.1 right overlay"
+    default y
+
+endif
+
+endmenu
