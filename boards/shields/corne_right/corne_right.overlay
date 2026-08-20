@@ -35,8 +35,9 @@
         reg = <0x74>;
 
         /* QMK used D0 = SCL and D1 = SDA; map these to pro_micro pins 0 and 1 respectively */
-        reset-gpios = <&pro_micro 0 GPIO_ACTIVE_LOW>;
-        rdy-gpios = <&pro_micro 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+        /* Optional: comment out reset/rdy to avoid overriding I2C (SCL/SDA) pins */
+        /* reset-gpios = <&pro_micro 0 GPIO_ACTIVE_LOW>; */
+        /* rdy-gpios = <&pro_micro 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>; */
 
         one-finger-tap;
         press-and-hold;
