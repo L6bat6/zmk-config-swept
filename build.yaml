@@ -1,2 +1,2 @@
-board: [ "sparkfun_pro_micro_rp2040/rp2040/zmk" ]
+board: [ "sparkfun_pro_micro_rp2040/rp2040" ]
 shield: [ "corne2_1_left", "corne2_1_right" ]
