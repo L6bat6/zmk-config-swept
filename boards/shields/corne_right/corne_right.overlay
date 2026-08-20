@@ -55,3 +55,7 @@
 &tps43_split {
     device = <&tps43>;
 };
+
+/ {
+    /* Right half does not need to define the split_serial node; left (master) points to it. */
+};
