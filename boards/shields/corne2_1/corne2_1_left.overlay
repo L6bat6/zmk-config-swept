@@ -23,12 +23,13 @@
         ;
 };
 
-/* Redireciona o I2C para os pinos D0/D1 (GPIO 2 e 3 da RP2040) */
+/* Redireciona o I2C0 para os pinos D0/D1 (GPIO 2 e 3 da RP2040) */
 &pinctrl {
     i2c0_default: i2c0_default {
         group1 {
-            pinmux = <RP2040_PINMUX(2, REACH_PERIPH_I2C)>,
-                     <RP2040_PINMUX(3, REACH_PERIPH_I2C)>;
+            pinmux = <I2C0_SDA_P2>, <I2C0_SCL_P3>;
+            input-enable;
+            input-schmitt-enable;
         };
     };
 };
@@ -40,7 +41,7 @@
     pinctrl-names = "default";
 };
 
-/* Ativa o Trackpad Azoteq */
+/* Ativa o Trackpad Azoteq no lado direito */
 &tps43_split {
     status = "okay";
 };
